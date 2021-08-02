@@ -1,9 +1,7 @@
 package kr.co.bepo.cleanarchitectureto_do.fragments.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kr.co.bepo.cleanarchitectureto_do.R
@@ -27,6 +25,10 @@ class ListFragment : Fragment() {
         initViews()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_fragment_menu, menu)
+    }
+
     private fun initViews() = with(binding) {
         floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
@@ -35,5 +37,7 @@ class ListFragment : Fragment() {
         listLayout.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_updateFragment)
         }
+
+        setHasOptionsMenu(true)
     }
 }
