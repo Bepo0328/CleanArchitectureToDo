@@ -12,6 +12,7 @@ import kr.co.bepo.cleanarchitectureto_do.data.models.Priority
 import kr.co.bepo.cleanarchitectureto_do.data.models.ToDoData
 import kr.co.bepo.cleanarchitectureto_do.data.viewmodel.ToDoViewModel
 import kr.co.bepo.cleanarchitectureto_do.databinding.FragmentAddBinding
+import kr.co.bepo.cleanarchitectureto_do.fragments.SharedViewModel
 
 class AddFragment : Fragment() {
 
@@ -19,6 +20,7 @@ class AddFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val toDoViewModel: ToDoViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +37,8 @@ class AddFragment : Fragment() {
 
     private fun initViews() = with(binding) {
         setHasOptionsMenu(true)
+
+        prioritiesSpinner.onItemSelectedListener = sharedViewModel.listener
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -53,13 +57,13 @@ class AddFragment : Fragment() {
         val priority = prioritiesSpinner.selectedItem.toString()
         val description = descriptionEditText.text.toString()
 
-        val validation = verifyDataFromUser(title, description)
+        val validation = sharedViewModel.verifyDataFromUser(title, description)
         if (validation) {
             // Insert Data to Database
             val newData = ToDoData(
                 id = 0,
                 title = title,
-                priority = parsePriority(priority),
+                priority = sharedViewModel.parsePriority(priority),
                 description = description
             )
             toDoViewModel.insertData(newData)
@@ -71,19 +75,6 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun verifyDataFromUser(title: String, description: String): Boolean {
-        return if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description)) {
-            false
-        } else !(title.isEmpty() || description.isEmpty())
-    }
 
-    private fun parsePriority(priority: String): Priority {
-        return when (priority) {
-            "High Priority" -> Priority.HIGH
-            "Medium Priority" -> Priority.MEDIUM
-            "Low Priority" -> Priority.LOW
-            else -> Priority.LOW
-        }
-    }
 
 }

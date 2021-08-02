@@ -7,10 +7,13 @@
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/drawable/ic_add.xml" value="0.21979166666666666" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/drawable/ic_no_data.xml" value="0.21979166666666666" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/drawable/ic_search.xml" value="0.37846153846153846" />
+        <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/drawable/item_background.xml" value="0.37846153846153846" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/layout/activity_main.xml" value="0.3536458333333333" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/layout/fragment_add.xml" value="0.36822916666666666" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/layout/fragment_list.xml" value="0.36822916666666666" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/layout/fragment_update.xml" value="0.36822916666666666" />
+        <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/layout/low_layout.xml" value="0.36822916666666666" />
+        <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/layout/row_layout.xml" value="0.4139344262295082" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/menu-v26/list_fragment_menu.xml" value="0.36822916666666666" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/menu/add_fragment_menu.xml" value="0.36822916666666666" />
         <entry key="..\:/Android App/CleanArchitectureToDo/app/src/main/res/menu/list_fragment_menu.xml" value="0.36256410256410254" />
