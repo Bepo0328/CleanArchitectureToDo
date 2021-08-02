@@ -1,10 +1,9 @@
 package kr.co.bepo.cleanarchitectureto_do.fragments.update
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import kr.co.bepo.cleanarchitectureto_do.R
 import kr.co.bepo.cleanarchitectureto_do.databinding.FragmentUpdateBinding
 
 class UpdateFragment : Fragment() {
@@ -18,5 +17,19 @@ class UpdateFragment : Fragment() {
     ): View = FragmentUpdateBinding.inflate(inflater, container, false)
         .also { _binding = it }
         .root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initViews()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.update_fragment_menu, menu)
+    }
+
+    private fun initViews() = with(binding) {
+        setHasOptionsMenu(true)
+    }
 
 }
