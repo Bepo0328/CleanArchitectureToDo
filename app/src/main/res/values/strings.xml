@@ -16,6 +16,7 @@
         <item>Low Priority</item>
     </string-array>
 
+    <!-- Fragment Menu -->
     <string name="search">Search</string>
     <string name="sort_by">Sort By</string>
     <string name="priority_high">Priority High</string>
