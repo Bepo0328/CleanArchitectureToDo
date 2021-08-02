@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Clean Architecture To-Do</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_data">No Data</string>
+
+    <!-- Nav_Graph -->
+    <string name="todo_list">ToDo List</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+
+    <!-- Fragment Add -->
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string-array name="priorities">
+        <item>High Priority</item>
+        <item>Medium Priority</item>
+        <item>Low Priority</item>
+    </string-array>
 </resources>

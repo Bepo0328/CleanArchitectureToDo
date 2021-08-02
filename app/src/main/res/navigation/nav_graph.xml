@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="kr.co.bepo.cleanarchitectureto_do.fragments.list.ListFragment"
-        android:label="fragment_list"
+        android:label="@string/todo_list"
         tools:layout="@layout/fragment_list">
 
         <action
@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="kr.co.bepo.cleanarchitectureto_do.fragments.add.AddFragment"
-        android:label="fragment_add"
+        android:label="@string/add"
         tools:layout="@layout/fragment_add">
 
         <action
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/updateFragment"
         android:name="kr.co.bepo.cleanarchitectureto_do.fragments.update.UpdateFragment"
-        android:label="fragment_update"
+        android:label="@string/update"
         tools:layout="@layout/fragment_update">
 
         <action

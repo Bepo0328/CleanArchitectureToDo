@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import kr.co.bepo.cleanarchitectureto_do.R
 import kr.co.bepo.cleanarchitectureto_do.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -19,4 +21,19 @@ class ListFragment : Fragment() {
         .also { _binding = it }
         .root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initViews()
+    }
+
+    private fun initViews() = with(binding) {
+        floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_addFragment)
+        }
+
+        listLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_updateFragment)
+        }
+    }
 }
