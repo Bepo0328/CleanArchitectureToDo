@@ -1,7 +1,9 @@
 package kr.co.bepo.cleanarchitectureto_do.fragments.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -37,10 +39,6 @@ class ListFragment : Fragment() {
         initViews()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.list_fragment_menu, menu)
-    }
-
     private fun initViews() = with(binding) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -54,5 +52,33 @@ class ListFragment : Fragment() {
         }
 
         setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_delete_all -> confirmRemoval()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun confirmRemoval() {
+        AlertDialog.Builder(requireContext())
+            .setPositiveButton("Yes") { _, _ ->
+                todoViewModel.deleteAll()
+                Toast.makeText(
+                    requireContext(),
+                    "Successfully Removed Everything!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .setNegativeButton("No") { _, _ -> }
+            .setTitle("Delete Everything?")
+            .setMessage("Are you sure you want to remove Everything?")
+            .create()
+            .show()
     }
 }
