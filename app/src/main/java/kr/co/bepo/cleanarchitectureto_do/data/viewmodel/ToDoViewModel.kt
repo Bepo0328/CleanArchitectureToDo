@@ -32,4 +32,7 @@ class ToDoViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
     }
+
+    fun searchDatabase(searchQuery: String): LiveData<List<ToDoData>> =
+        repository.searchDatabase(searchQuery)
 }

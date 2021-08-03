@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,7 +23,7 @@ import kr.co.bepo.cleanarchitectureto_do.util.color
 import kr.co.bepo.cleanarchitectureto_do.util.toInVisible
 import kr.co.bepo.cleanarchitectureto_do.util.toVisible
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
@@ -51,13 +52,7 @@ class ListFragment : Fragment() {
     }
 
     private fun initViews() = with(binding) {
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.itemAnimator = SlideInUpAnimator().apply {
-            addDuration = 300
-        }
-
-        swipeToDelete(recyclerView)
+        setupRecyclerview()
 
         todoViewModel.getAllData.observe(viewLifecycleOwner) { data ->
             sharedViewModel.checkIfDatabaseEmpty(data)
@@ -73,6 +68,16 @@ class ListFragment : Fragment() {
         }
 
         setHasOptionsMenu(true)
+    }
+
+    private fun setupRecyclerview() = with(binding) {
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
+
+        swipeToDelete(recyclerView)
     }
 
     private fun swipeToDelete(recyclerView: RecyclerView) {
@@ -111,6 +116,11 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -118,6 +128,30 @@ class ListFragment : Fragment() {
             R.id.menu_delete_all -> confirmRemoval()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if (query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery = "%$query%"
+        
+        todoViewModel.searchDatabase(searchQuery).observe(this) { list ->
+            list?.let {
+                adapter.setData(it)
+            }
+        }
     }
 
     private fun confirmRemoval() {

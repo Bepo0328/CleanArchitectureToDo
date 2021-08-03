@@ -25,4 +25,7 @@ class ToDoRepository(
     suspend fun deleteAll() {
         toDoDao.deleteAll()
     }
+
+    fun searchDatabase(searchQuery: String): LiveData<List<ToDoData>> =
+        toDoDao.searchDatabase(searchQuery)
 }
