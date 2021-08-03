@@ -13,7 +13,7 @@ import kr.co.bepo.cleanarchitectureto_do.databinding.RowLayoutBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
-    private var dataList: List<ToDoData> = listOf()
+    var dataList: List<ToDoData> = listOf()
 
     inner class ListViewHolder(
         private val binding: RowLayoutBinding
