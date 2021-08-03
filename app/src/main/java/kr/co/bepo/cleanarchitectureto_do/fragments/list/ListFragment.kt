@@ -126,6 +126,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_delete_all -> confirmRemoval()
+            R.id.menu_priority_high -> sortByHighPriority()
+            R.id.menu_priority_low -> sortByLowPriority()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -144,15 +146,12 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         return true
     }
 
-    private fun searchThroughDatabase(query: String) {
-        val searchQuery = "%$query%"
-        
-        todoViewModel.searchDatabase(searchQuery).observe(this) { list ->
+    private fun searchThroughDatabase(query: String) =
+        todoViewModel.searchDatabase("%$query%").observe(this) { list ->
             list?.let {
                 adapter.setData(it)
             }
         }
-    }
 
     private fun confirmRemoval() {
         AlertDialog.Builder(requireContext())
@@ -169,5 +168,13 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             .setMessage("Are you sure you want to remove Everything?")
             .create()
             .show()
+    }
+
+    private fun sortByHighPriority() = todoViewModel.sortByHighPriority.observe(this) {
+        adapter.setData(it)
+    }
+
+    private fun sortByLowPriority() = todoViewModel.sortByLowPriority.observe(this) {
+        adapter.setData(it)
     }
 }
