@@ -66,4 +66,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion"
+
+    // Recyclerview Animators
+    implementation "jp.wasabeef:recyclerview-animators:$recyclerviewAnimatorsVersion"
 }
