@@ -1,5 +1,6 @@
 package kr.co.bepo.cleanarchitectureto_do.fragments.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -8,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kr.co.bepo.cleanarchitectureto_do.R
-import kr.co.bepo.cleanarchitectureto_do.data.models.Priority
 import kr.co.bepo.cleanarchitectureto_do.data.models.ToDoData
 import kr.co.bepo.cleanarchitectureto_do.data.viewmodel.ToDoViewModel
 import kr.co.bepo.cleanarchitectureto_do.databinding.FragmentUpdateBinding
@@ -50,8 +50,9 @@ class UpdateFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_save) {
-            updateItem()
+        when (item.itemId) {
+            R.id.menu_save -> updateItem()
+            R.id.menu_delete -> confirmItemRemoval()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -73,8 +74,27 @@ class UpdateFragment : Fragment() {
             Toast.makeText(requireContext(), "Successfully updated!", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         } else {
-            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please fill out all fields.", Toast.LENGTH_SHORT)
+                .show()
         }
+    }
+
+    private fun confirmItemRemoval() {
+        AlertDialog.Builder(requireContext())
+            .setPositiveButton("Yes") { _, _ ->
+                toDoViewModel.deleteItem(args.currentItem)
+                Toast.makeText(
+                    requireContext(),
+                    "Successfully Removed: ${args.currentItem.title}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            }
+            .setNegativeButton("No") { _, _ -> }
+            .setTitle("Delete ${args.currentItem.title}?")
+            .setMessage("Are you sure you want to remove ${args.currentItem.title}?")
+            .create()
+            .show()
     }
 
 }
