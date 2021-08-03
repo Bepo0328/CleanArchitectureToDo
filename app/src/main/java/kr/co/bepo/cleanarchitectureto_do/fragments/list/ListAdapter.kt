@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.bepo.cleanarchitectureto_do.R
 import kr.co.bepo.cleanarchitectureto_do.data.models.Priority
@@ -12,7 +13,7 @@ import kr.co.bepo.cleanarchitectureto_do.databinding.RowLayoutBinding
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
-    var dataList: List<ToDoData> = listOf()
+    private var dataList: List<ToDoData> = listOf()
 
     inner class ListViewHolder(
         private val binding: RowLayoutBinding
@@ -21,6 +22,11 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
         fun bind(data: ToDoData) = with(binding) {
             titleTextView.text = data.title
             descriptionTextView.text = data.description
+
+            rowBackground.setOnClickListener {
+                val action = ListFragmentDirections.actionListFragmentToUpdateFragment(data)
+                root.findNavController().navigate(action)
+            }
 
             when (data.priority) {
                 Priority.HIGH -> priorityIndicator.setCardBackgroundColor(
