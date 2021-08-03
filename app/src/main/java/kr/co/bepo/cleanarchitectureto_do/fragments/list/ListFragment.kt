@@ -8,7 +8,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kr.co.bepo.cleanarchitectureto_do.R
@@ -17,9 +19,7 @@ import kr.co.bepo.cleanarchitectureto_do.data.viewmodel.ToDoViewModel
 import kr.co.bepo.cleanarchitectureto_do.databinding.FragmentListBinding
 import kr.co.bepo.cleanarchitectureto_do.fragments.SharedViewModel
 import kr.co.bepo.cleanarchitectureto_do.fragments.list.adapter.ListAdapter
-import kr.co.bepo.cleanarchitectureto_do.util.color
-import kr.co.bepo.cleanarchitectureto_do.util.toInVisible
-import kr.co.bepo.cleanarchitectureto_do.util.toVisible
+import kr.co.bepo.cleanarchitectureto_do.util.*
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -66,11 +66,14 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         setHasOptionsMenu(true)
+
+        hideKeyboard(requireActivity())
     }
 
     private fun setupRecyclerview() = with(binding) {
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.itemAnimator = SlideInUpAnimator().apply {
             addDuration = 300
         }
@@ -85,18 +88,17 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                 todoViewModel.deleteItem(deleteItem)
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
-                restoreDeletedData(viewHolder.itemView, deleteItem, viewHolder.adapterPosition)
+                restoreDeletedData(viewHolder.itemView, deleteItem)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun restoreDeletedData(view: View, deleteItem: ToDoData, position: Int) {
+    private fun restoreDeletedData(view: View, deleteItem: ToDoData) {
         Snackbar.make(view, "Deleted '${deleteItem.title}'", Snackbar.LENGTH_LONG)
             .setAction("Undo") {
                 todoViewModel.insertData(deleteItem)
-                adapter.notifyItemChanged(position)
             }
             .setActionTextColor(view.color(R.color.holo_orange_light))
             .show()
@@ -145,7 +147,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun searchThroughDatabase(query: String) =
-        todoViewModel.searchDatabase("%$query%").observe(this) { list ->
+        todoViewModel.searchDatabase("%$query%").observeOnce(viewLifecycleOwner) { list ->
             list?.let {
                 adapter.setData(it)
             }

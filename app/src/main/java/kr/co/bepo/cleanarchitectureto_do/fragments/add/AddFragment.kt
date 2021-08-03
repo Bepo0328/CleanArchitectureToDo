@@ -35,6 +35,11 @@ class AddFragment : Fragment() {
         initViews()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun initViews() = with(binding) {
         setHasOptionsMenu(true)
 
