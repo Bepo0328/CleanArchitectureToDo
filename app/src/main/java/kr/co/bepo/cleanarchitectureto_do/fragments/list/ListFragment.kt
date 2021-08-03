@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,6 +16,7 @@ import kr.co.bepo.cleanarchitectureto_do.data.models.ToDoData
 import kr.co.bepo.cleanarchitectureto_do.data.viewmodel.ToDoViewModel
 import kr.co.bepo.cleanarchitectureto_do.databinding.FragmentListBinding
 import kr.co.bepo.cleanarchitectureto_do.fragments.SharedViewModel
+import kr.co.bepo.cleanarchitectureto_do.fragments.list.adapter.ListAdapter
 import kr.co.bepo.cleanarchitectureto_do.util.color
 import kr.co.bepo.cleanarchitectureto_do.util.toInVisible
 import kr.co.bepo.cleanarchitectureto_do.util.toVisible

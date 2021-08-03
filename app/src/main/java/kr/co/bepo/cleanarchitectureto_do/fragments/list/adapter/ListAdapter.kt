@@ -1,15 +1,16 @@
-package kr.co.bepo.cleanarchitectureto_do.fragments.list
+package kr.co.bepo.cleanarchitectureto_do.fragments.list.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.bepo.cleanarchitectureto_do.R
 import kr.co.bepo.cleanarchitectureto_do.data.models.Priority
 import kr.co.bepo.cleanarchitectureto_do.data.models.ToDoData
 import kr.co.bepo.cleanarchitectureto_do.databinding.RowLayoutBinding
+import kr.co.bepo.cleanarchitectureto_do.fragments.list.ListFragmentDirections
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
@@ -62,9 +63,10 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     override fun getItemCount(): Int =
         dataList.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(toDoList: List<ToDoData>) {
+        val toDoDiffUtil = ToDoDiffUtil(dataList, toDoList)
+        val toDoDiffResult = DiffUtil.calculateDiff(toDoDiffUtil)
         this.dataList = toDoList
-        notifyDataSetChanged()
+        toDoDiffResult.dispatchUpdatesTo(this)
     }
 }
